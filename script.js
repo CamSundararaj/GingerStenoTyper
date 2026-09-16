@@ -73,7 +73,7 @@ function handleInput(e) {
     updateProgress();
     autoGrowTextarea();
 
-    if (currentIndex >= currentText.length) {
+    if (((currentIndex >= currentText.length && (currentText.slice(-2) === typingInput.value.slice(-2))) || (currentIndex >= currentText.length + 20))) {
         endTest();
     }
 }
