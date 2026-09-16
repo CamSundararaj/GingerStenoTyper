@@ -14,7 +14,6 @@ let totalChars = 0;
 
 const textContent = document.getElementById('textContent');
 const typingInput = document.getElementById('typingInput');
-const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const wpmElement = document.getElementById('wpm');
 const accuracyElement = document.getElementById('accuracy');
@@ -38,18 +37,23 @@ function displayText(){
 }
 
 function startTest() {
+    if (isActive) return;
+
     isActive = true;
     startTime = Date.now();
     typingInput.disabled = false;
     typingInput.placeholder = "Start typing...";
     typingInput.focus();
     autoGrowTextarea();
-    startBtn.style.display = 'none';
     progressText.textContent = 'Test in progress...';
     startTimer();
 }
 
 function handleInput(e) {
+    if (!isActive && e.target.value.length > 0) {
+        startTest();
+    }
+
     if (!isActive) return;
 
     const inputValue = e.target.value;
@@ -139,10 +143,9 @@ function resetTest() {
     clearInterval(timer);
 
     typingInput.value = '';
-    typingInput.disabled = true;
-    typingInput.placeholder = 'Click start to begin typing...';
+    typingInput.disabled = false;
+    typingInput.placeholder = 'Start typing to begin...';
     typingInput.style.height = 'auto';
-    startBtn.style.display = 'inline-flex';
     progressText.textContent = 'Ready to Start';
 
     wpmElement.textContent = '0';
@@ -152,6 +155,7 @@ function resetTest() {
 
     loadNewText();
     resultsModal.classList.remove('show');
+    typingInput.focus();
 }
 
 function closeResults() {
@@ -164,12 +168,6 @@ function autoGrowTextarea() {
     typingInput.style.height = `${Math.min(typingInput.scrollHeight, 220)}px`;
 }
 
-typingInput.addEventListener('input', (e) => {
-    handleInput(e);
-    autoGrowTextarea();
-});
-
-startBtn.addEventListener('click', startTest);
 resetBtn.addEventListener('click', resetTest);
 typingInput.addEventListener('input', handleInput);
 typingInput.addEventListener('paste', (e) => e.preventDefault());
@@ -177,4 +175,7 @@ tryAgainBtn.addEventListener('click', closeResults);
 
 document.addEventListener('DOMContentLoaded', () => {
     loadNewText();
+    typingInput.disabled = false;
+    typingInput.placeholder = 'Start typing to begin...';
+    typingInput.focus();
 })
