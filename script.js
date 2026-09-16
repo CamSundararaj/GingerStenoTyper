@@ -7,7 +7,6 @@ const texts = [
 let currentText = '';
 let currentIndex = 0;
 let startTime = null;
-let timeLeft = 60;
 let timer = null;
 let isActive = false;
 let errors = 0;
@@ -22,7 +21,6 @@ const accuracyElement = document.getElementById('accuracy');
 const charactersElement = document.getElementById('characters');
 const progressFill = document.getElementById('progressFill');
 const progressText = document.getElementById('progressText');
-const timerElement = document.getElementById('timer');
 const tryAgainBtn = document.getElementById('tryAgainBtn');
 const resultsModal = document.getElementById('resultsModal');
 
@@ -49,17 +47,6 @@ function startTest() {
     startBtn.style.display = 'none';
     progressText.textContent = 'Test in progress...';
     startTimer();
-}
-
-function startTimer() {
-    timer = setInterval(() => {
-        timeLeft--;
-        timerElement.querySelector('span').textContent = timeLeft;
-
-        if (timeLeft <= 0) {
-            endTest();
-        }
-    }, 1000);
 }
 
 function handleInput(e) {
@@ -125,7 +112,6 @@ function updateProgress() {
 function endTest() {
     isActive = false;
     typingInput.disabled = true;
-    clearInterval(timer);
 
     updateStats()
     showResults();
@@ -148,7 +134,6 @@ function resetTest() {
     currentIndex = 0;
     errors = 0;
     totalChars = 0;
-    timeLeft = 60;
     startTime = null;
     
     clearInterval(timer);
@@ -158,7 +143,6 @@ function resetTest() {
     typingInput.placeholder = 'Click start to begin typing...';
     typingInput.style.height = 'auto';
     startBtn.style.display = 'inline-flex';
-    timerElement.querySelector('span').textContent = '60';
     progressText.textContent = 'Ready to Start';
 
     wpmElement.textContent = '0';
