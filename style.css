@@ -117,15 +117,15 @@ body{
 
 .text-container{
     background: #1a1a1a;
-    border: 1px solid #333333;
+    border: 2px solid #333333;
     border-radius: 12px;
-    padding: 32px;
+    padding: 16px 20px;
     margin-bottom: 32px;
     font-size: 1.125rem;
     line-height: 1.8;
-    font-family: 'SF Mono', Monaco 'Cacadia Code', monospace;
+    font-family: 'SF Mono', Monaco, 'Cacadia Code', monospace;
     position: relative;
-    min-height: 120px;
+    min-height: 72px;
     display: flex;
     align-items: center;
 }
@@ -170,6 +170,8 @@ body{
 
 .typing-input{
     width: 100%;
+    min-height: 72px;
+    max-height: 220px;
     padding: 16px 20px;
     font-size: 1.125rem;
     background: #1a1a1a;
@@ -178,7 +180,9 @@ body{
     color: white;
     outline: none;
     transition: all 0.2s ease;
-    font-family: 'SF Mono', Monaco 'Cacadia Code', monospace;
+    font-family: 'SF Mono', Monaco, 'Cacadia Code', monospace;
+    resize: none;
+    overflow: hidden;
 }
 
 .typing-input:focus{

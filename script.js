@@ -45,6 +45,7 @@ function startTest() {
     typingInput.disabled = false;
     typingInput.placeholder = "Start typing...";
     typingInput.focus();
+    autoGrowTextarea();
     startBtn.style.display = 'none';
     progressText.textContent = 'Test in progress...';
     startTimer();
@@ -70,6 +71,7 @@ function handleInput(e) {
     updateDisplay(inputValue);
     updateStats();
     updateProgress();
+    autoGrowTextarea();
 
     if (currentIndex >= currentText.length) {
         endTest();
@@ -154,6 +156,7 @@ function resetTest() {
     typingInput.value = '';
     typingInput.disabled = true;
     typingInput.placeholder = 'Click start to begin typing...';
+    typingInput.style.height = 'auto';
     startBtn.style.display = 'inline-flex';
     timerElement.querySelector('span').textContent = '60';
     progressText.textContent = 'Ready to Start';
@@ -171,6 +174,16 @@ function closeResults() {
     resultsModal.classList.remove('show');
     resetTest();
 }
+
+function autoGrowTextarea() {
+    typingInput.style.height = 'auto';
+    typingInput.style.height = `${Math.min(typingInput.scrollHeight, 220)}px`;
+}
+
+typingInput.addEventListener('input', (e) => {
+    handleInput(e);
+    autoGrowTextarea();
+});
 
 startBtn.addEventListener('click', startTest);
 resetBtn.addEventListener('click', resetTest);
