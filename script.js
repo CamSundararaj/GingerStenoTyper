@@ -46,12 +46,14 @@ function startTest() {
     typingInput.focus();
     autoGrowTextarea();
     progressText.textContent = 'Test in progress...';
-    startTimer();
 }
 
 function handleInput(e) {
-    if (!isActive && e.target.value.length > 0) {
+    if (e.target.value.length == 1) {
         e.target.value = e.target.value.trimStart();
+    }
+
+    if (!isActive && e.target.value.length > 0) {
         startTest();
     }
 
@@ -220,7 +222,7 @@ ws.onmessage = (event) => {
         stroke = data.rtfcre;
         let individualKeys = Array.from(stroke);
         
-        console.log(individualKeys);
+        // console.log(individualKeys);
         activateKeys(individualKeys);
     }
 
