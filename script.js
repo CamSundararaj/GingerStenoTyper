@@ -51,6 +51,7 @@ function startTest() {
 
 function handleInput(e) {
     if (!isActive && e.target.value.length > 0) {
+        e.target.value = e.target.value.trimStart();
         startTest();
     }
 
