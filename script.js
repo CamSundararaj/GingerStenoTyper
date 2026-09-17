@@ -46,6 +46,12 @@ function startTest() {
     typingInput.focus();
     autoGrowTextarea();
     progressText.textContent = 'Test in progress...';
+    
+    clearInterval(timer);
+    timer = setInterval(() => {
+        if (!isActive) return;
+        updateStats();
+    }, 1000);
 }
 
 function handleInput(e) {
@@ -63,7 +69,6 @@ function handleInput(e) {
     currentIndex = inputValue.length;
 
     updateDisplay(inputValue);
-    updateStats();
     updateProgress();
     autoGrowTextarea();
 
@@ -120,7 +125,9 @@ function endTest() {
     isActive = false;
     typingInput.disabled = true;
 
-    updateStats()
+    // ensure stats are updated and stop the periodic timer
+    updateStats();
+    clearInterval(timer);
     showResults();
 }
 
