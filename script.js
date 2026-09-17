@@ -142,6 +142,7 @@ function resetTest() {
     startTime = null;
     
     clearInterval(timer);
+    resetStenokeys();
 
     typingInput.value = '';
     typingInput.disabled = false;
@@ -178,6 +179,7 @@ tryAgainBtn.addEventListener('click', closeResults);
 const ws = new WebSocket("ws://localhost:8086/websocket");
 
 const leftStenoKeys = {
+    '#': document.querySelector('[data-stroke="#"]'),
     'S': document.querySelector('[data-stroke="S"]'), 
     'T': document.querySelector('[data-stroke="T"]'), 
     'K': document.querySelector('[data-stroke="K"]'), 
@@ -190,7 +192,7 @@ const leftStenoKeys = {
 const vowelAsteriskStenoKeys = {
     'A': document.querySelector('[data-stroke="A"]'), 
     'O': document.querySelector('[data-stroke="O"]'), 
-    '*': document.querySelectorAll('[data-stroke="*"]'), 
+    '*': document.querySelector('[data-stroke="*"]'), 
     'E': document.querySelector('[data-stroke="E"]'), 
     'U': document.querySelector('[data-stroke="U"]')
 };
@@ -217,6 +219,8 @@ ws.onmessage = (event) => {
         resetStenokeys();
         stroke = data.rtfcre;
         let individualKeys = Array.from(stroke);
+        
+        console.log(individualKeys);
         activateKeys(individualKeys);
     }
 
@@ -231,7 +235,6 @@ function activateKeys(individualKeys) {
     let vowelKeysExist = true;
 
     for (const char of individualKeys) {
-        // dash switches to right-hand side
         if (char === '-') {
             leftKeysExist = false;
             vowelKeysExist = false;
@@ -240,16 +243,9 @@ function activateKeys(individualKeys) {
 
         if (leftKeysExist && char in leftStenoKeys) {
             leftStenoKeys[char].classList.add('active');
-            continue;
         } else if (vowelKeysExist && char in vowelAsteriskStenoKeys) {
             leftKeysExist = false;
-            const key = vowelAsteriskStenoKeys[char];
-
-            if (char === '*') {
-                Array.from(key).forEach(k => k.classList.add('active'));
-            } else {
-                key.classList.add("active");
-            }
+            vowelAsteriskStenoKeys[char].classList.add("active");
         } else if(char in rightStenoKeys) {
             vowelKeysExist = false;
             rightStenoKeys[char].classList.add("active");
