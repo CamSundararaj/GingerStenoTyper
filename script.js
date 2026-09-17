@@ -177,13 +177,91 @@ tryAgainBtn.addEventListener('click', closeResults);
 // Connects to server.py which makes websocket in Plover to get strokes
 const ws = new WebSocket("ws://localhost:8086/websocket");
 
+const leftStenoKeys = {
+    'S': document.querySelector('[data-stroke="S"]'), 
+    'T': document.querySelector('[data-stroke="T"]'), 
+    'K': document.querySelector('[data-stroke="K"]'), 
+    'P': document.querySelector('[data-stroke="P"]'), 
+    'W': document.querySelector('[data-stroke="W"]'), 
+    'H': document.querySelector('[data-stroke="H"]'), 
+    'R': document.querySelector('[data-stroke="R"]'),
+};
+
+const vowelAsteriskStenoKeys = {
+    'A': document.querySelector('[data-stroke="A"]'), 
+    'O': document.querySelector('[data-stroke="O"]'), 
+    '*': document.querySelectorAll('[data-stroke="*"]'), 
+    'E': document.querySelector('[data-stroke="E"]'), 
+    'U': document.querySelector('[data-stroke="U"]')
+};
+
+const rightStenoKeys = {
+    'F': document.querySelector('[data-stroke="-F"]'), 
+    'R': document.querySelector('[data-stroke="-R"]'), 
+    'P': document.querySelector('[data-stroke="-P"]'), 
+    'B': document.querySelector('[data-stroke="-B"]'), 
+    'L': document.querySelector('[data-stroke="-L"]'), 
+    'G': document.querySelector('[data-stroke="-G"]'), 
+    'T': document.querySelector('[data-stroke="-T"]'), 
+    'S': document.querySelector('[data-stroke="-S"]'), 
+    'D': document.querySelector('[data-stroke="-D"]'), 
+    'Z': document.querySelector('[data-stroke="-Z"]')
+}
+
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
+    let stroke = "";
+
     if (data.rtfcre) {
-        console.log("Steno stroke:", data.rtfcre);
+        resetStenokeys();
+        stroke = data.rtfcre;
+        let individualKeys = Array.from(stroke);
+        activateKeys(individualKeys);
     }
+
+    // console.log(event.data);
+    // if (data.rtfcre) {
+    //     console.log("Steno stroke:", data.rtfcre);
+    // }
 };
+
+function activateKeys(individualKeys) {
+    let leftKeysExist = true;
+    let vowelKeysExist = true;
+
+    for (const char of individualKeys) {
+        // dash switches to right-hand side
+        if (char === '-') {
+            leftKeysExist = false;
+            vowelKeysExist = false;
+            continue;
+        }
+
+        if (leftKeysExist && char in leftStenoKeys) {
+            leftStenoKeys[char].classList.add('active');
+            continue;
+        } else if (vowelKeysExist && char in vowelAsteriskStenoKeys) {
+            leftKeysExist = false;
+            const key = vowelAsteriskStenoKeys[char];
+
+            if (char === '*') {
+                Array.from(key).forEach(k => k.classList.add('active'));
+            } else {
+                key.classList.add("active");
+            }
+        } else if(char in rightStenoKeys) {
+            vowelKeysExist = false;
+            rightStenoKeys[char].classList.add("active");
+        }
+    }
+}
+
+function resetStenokeys() {
+    document.querySelectorAll('.steno-key').forEach(k => {
+        k.classList.remove('active');
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     loadNewText();
