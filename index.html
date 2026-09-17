@@ -10,54 +10,96 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="title">GingerCam's Steno Typer</h1>
-            <p class="subtitle">Measure steno typing speed and acc</p>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fas fa-tachometer-alt stat-icon"></i>
-                <div class="stat-value" id="wpm">0</div>
-                <div class="stat-label">WPM</div>
+    <div class="page-shell">
+        <div class="container">
+            <div class="header">
+                <h1 class="title">GingerCam's Steno Typer</h1>
+                <p class="subtitle">Measure steno typing speed and acc</p>
             </div>
 
-            <div class="stat-card">
-                <i class="fas fa-bullseye stat-icon"></i>
-                <div class="stat-value" id="accuracy">100</div>
-                <div class="stat-label">Accuracy</div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="progress-text" id="progressText">Ready to Start</div>
             </div>
 
-            <div class="stat-card">
-                <i class="fas fa-keyboard stat-icon"></i>
-                <div class="stat-value" id="characters">0</div>
-                <div class="stat-label">Characters</div>
+            <div class="text-container">
+                <div class="text-content" id="textContent"></div>
+            </div>
+
+            <div class="input-section">
+                <textarea class="typing-input" id="typingInput" rows="1" placeholder="Start typing to begin..."
+                    autocomplete="off" spellcheck="false"></textarea>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-reset" id="resetBtn">
+                    <i class="fas fa-redo"></i>
+                    Reset
+                </button>
+            </div>
+
+            <div class="steno-keyboard-container">
+                <div class="steno-keyboard">
+
+                    <!-- Top row -->
+                    <div class="steno-key" data-stroke="#">#</div>
+                    <div class="steno-key" data-stroke="T">T</div>
+                    <div class="steno-key" data-stroke="P">P</div>
+                    <div class="steno-key" data-stroke="H">H</div>
+                    <div class="steno-key star-left" data-stroke="*">*</div>
+                    <div class="steno-key star-right" data-stroke="*">*</div>
+                    <div class="steno-key" data-stroke="-F">F</div>
+                    <div class="steno-key" data-stroke="-P">P</div>
+                    <div class="steno-key" data-stroke="-L">L</div>
+                    <div class="steno-key" data-stroke="-T">T</div>
+                    <div class="steno-key" data-stroke="-D">D</div>
+
+                    <!-- Bottom row -->
+                    <div class="steno-key" data-stroke="S">S</div>
+                    <div class="steno-key" data-stroke="K">K</div>
+                    <div class="steno-key" data-stroke="W">W</div>
+                    <div class="steno-key" data-stroke="R">R</div>
+                    <div class="steno-key star-left" data-stroke="*">*</div>
+                    <div class="steno-key star-right" data-stroke="*">*</div>
+                    <div class="steno-key" data-stroke="-R">R</div>
+                    <div class="steno-key" data-stroke="-B">B</div>
+                    <div class="steno-key" data-stroke="-G">G</div>
+                    <div class="steno-key" data-stroke="-S">S</div>
+                    <div class="steno-key" data-stroke="-Z">Z</div>
+
+                    <!-- Vowels -->
+                    <div class="steno-key vowel-a" data-stroke="A">A</div>
+                    <div class="steno-key vowel-o" data-stroke="O">O</div>
+                    <div class="steno-key vowel-e" data-stroke="E">E</div>
+                    <div class="steno-key vowel-u" data-stroke="U">U</div>
+
+                </div>
             </div>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+        <div class="stats-column">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-tachometer-alt stat-icon"></i>
+                    <div class="stat-value" id="wpm">0</div>
+                    <div class="stat-label">WPM</div>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fas fa-bullseye stat-icon"></i>
+                    <div class="stat-value" id="accuracy">100</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fas fa-keyboard stat-icon"></i>
+                    <div class="stat-value" id="characters">0</div>
+                    <div class="stat-label">Characters</div>
+                </div>
             </div>
-
-            <div class="progress-text" id="progressText">Ready to Start</div>
-        </div>
-
-        <div class="text-container">
-            <div class="text-content" id="textContent"></div>
-        </div>
-
-        <div class="input-section">
-            <textarea class="typing-input" id="typingInput" rows="1" placeholder="Start typing to begin..."
-                autocomplete="off" spellcheck="false"></textarea>
-        </div>
-
-        <div class="controls">
-            <button class="btn btn-secondary" id="resetBtn">
-                <i class="fas fa-redo"></i>
-                Reset
-            </button>
         </div>
     </div>
 

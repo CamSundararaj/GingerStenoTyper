@@ -174,9 +174,20 @@ typingInput.addEventListener('input', handleInput);
 typingInput.addEventListener('paste', (e) => e.preventDefault());
 tryAgainBtn.addEventListener('click', closeResults);
 
+// Connects to server.py which makes websocket in Plover to get strokes
+const ws = new WebSocket("ws://localhost:8086/websocket");
+
+ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.rtfcre) {
+        console.log("Steno stroke:", data.rtfcre);
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     loadNewText();
     typingInput.disabled = false;
     typingInput.placeholder = 'Start typing to begin...';
     typingInput.focus();
-})
+});
